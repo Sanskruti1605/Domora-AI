@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "HomeOS"
+version = "1.0.0"
+id = "artifacts/homeos"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23638
+
+[services.development]
+run = "pnpm --filter @workspace/homeos run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/homeos", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/homeos/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23638"
+BASE_PATH = "/"
